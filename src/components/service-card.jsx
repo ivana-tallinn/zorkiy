@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Theme } from '../const';
+import { Theme } from '../theme';
 import { Color } from '../tokens/colors';
 import { IconName } from '../tokens/icons';
 import { BaseCard } from '../helpers/base-card';
-import { TypographyVariant, Typography } from './typography';
-import { Icon } from './icon';
+import { TypographyVariant, Typography } from '../elements/typography';
+import { Icon } from '../elements/icon';
 
 const StyledServiceCard = styled.article`
   position: relative;
@@ -13,7 +13,7 @@ const StyledServiceCard = styled.article`
   width: 100%;
   height: 94px;
 
-  background-image: url(${(props) => props.image});
+  background-image: url(${({ image }) => image});
   background-position: center;
   background-size: cover;
 
@@ -34,8 +34,7 @@ const StyledTitle = styled(Typography).attrs({
   align-items: center;
   padding: 2px;
 
-  background-color: ${(props) => props.theme.current === Theme.LIGHT ? Color.WHITE : Color.GRAY_50};
-  transition: color 0.4s, background-color 0.4s;
+  background-color: ${({ theme }) => theme.current === Theme.LIGHT ? Color.WHITE : Color.GRAY_50};
 `;
 
 const StyledArrow = styled(Icon).attrs({
@@ -53,12 +52,12 @@ const StyledBaseCard = styled(BaseCard)`
   }
 `;
 
-function ServiceCard(props) {
+function ServiceCard({ className, title, image }) {
   return (
-    <StyledBaseCard to={props.link}>
-      <StyledServiceCard image={props.image}>
+    <StyledBaseCard className={className} to='#'>
+      <StyledServiceCard image={image}>
         <StyledTitle>
-          {props.title}
+          {title}
           <StyledArrow />
         </StyledTitle>
       </StyledServiceCard>

@@ -1,20 +1,21 @@
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import { Theme } from '../theme';
 import { Color } from '../tokens/colors';
 
 const ButtonSize = {
-  M: 'm',
-  L: 'l'
+  MEDIUM: 'medium',
+  LARGE: 'large'
 };
 
 const ButtonSizeToCSS = {
-  [ButtonSize.M]: css`
+  [ButtonSize.MEDIUM]: css`
     padding: 5px 8px;
 
     font-size: 14px;
     line-height: 20px;
   `,
-  [ButtonSize.L]: css`
+  [ButtonSize.LARGE]: css`
     padding: 8px 14px;
 
     font-size: 16px;
@@ -23,12 +24,11 @@ const ButtonSizeToCSS = {
 };
 
 const CSS = css`
-  ${(props) => ButtonSizeToCSS[props.size]}
+  ${({ size }) => ButtonSizeToCSS[size]}
 
   color: ${Color.WHITE};
 
   background-color: ${Color.BLUE_20};
-  transition: background-color 0.4s;
   cursor: pointer;
 
   &:hover,
@@ -41,18 +41,25 @@ const CSS = css`
   }
 
   &:disabled {
-    background-color: ${Color.GRAY_20};
+    ${({ theme }) => theme.current === Theme.LIGHT ? css`
+      background-color: ${Color.GRAY_20};
+    ` : css`
+      color: ${Color.GRAY_40};
+
+      background-color: ${Color.GRAY_30};
+    `}
+
     cursor: not-allowed;
   }
 `;
 
-const StyledButton = styled.button.attrs((props) => ({
-  type: props.type || 'button',
-  size: props.size || ButtonSize.M
+const StyledButton = styled.button.attrs(({ type, size }) => ({
+  type: type || 'button',
+  size: size || ButtonSize.MEDIUM
 }))`${CSS}`;
 
-const StyledLink = styled(Link).attrs((props) => ({
-  size: props.size || ButtonSize.M
+const StyledLink = styled(Link).attrs(({ size }) => ({
+  size: size || ButtonSize.MEDIUM
 }))`${CSS}`;
 
 export {

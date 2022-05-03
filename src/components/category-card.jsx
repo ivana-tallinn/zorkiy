@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Color } from '../tokens/colors';
 import { BaseCard } from '../helpers/base-card';
-import { TypographyVariant, Typography } from './typography';
+import { TypographyVariant, Typography } from '../elements/typography';
 
 const StyledCategoryCard = styled.article`
   position: relative;
@@ -10,7 +10,7 @@ const StyledCategoryCard = styled.article`
   width: 100%;
   height: 94px;
 
-  background-image: url(${(props) => props.image});
+  background-image: url(${({ image }) => image});
   background-position: right;
   background-size: contain;
   background-repeat: no-repeat;
@@ -39,13 +39,11 @@ const StyledBaseCard = styled(BaseCard)`
   }
 `;
 
-function CategoryCard(props) {
+function CategoryCard({ className, title, image }) {
   return (
-    <StyledBaseCard className={props.className} to={props.link}>
-      <StyledCategoryCard image={props.image}>
-        <StyledTitle>
-          {props.title}
-        </StyledTitle>
+    <StyledBaseCard className={className} to='#'>
+      <StyledCategoryCard image={image}>
+        <StyledTitle>{title}</StyledTitle>
       </StyledCategoryCard>
     </StyledBaseCard>
   );

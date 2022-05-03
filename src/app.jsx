@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import { Theme } from './const';
+import { Theme } from './theme';
 
 import { Fonts } from './tokens/fonts';
 import { Colors } from './tokens/colors';

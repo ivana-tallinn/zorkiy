@@ -1,24 +1,22 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { Theme } from '../const';
+import { Theme } from '../theme';
 import { Color } from '../tokens/colors';
 import { Shadow } from '../tokens/shadows';
 import { IconName } from '../tokens/icons';
 import { Container } from './container';
-import { Logo } from './logo';
-import { Icon } from './icon';
-import { IconButton } from './icon-button';
-import { TextButtonSize, TextLink, TextButtonIconLeft } from './text-button';
+import { Logo } from '../elements/logo';
+import { Icon } from '../elements/icon';
+import { IconButton } from '../elements/icon-button';
+import { TextButtonSize, TextLink, TextButtonIconLeft } from '../elements/text-button';
 
 const StyledHeader = styled.header`
-  ${(props) => props.theme.current === Theme.LIGHT ? css`
+  ${({ theme }) => theme.current === Theme.LIGHT ? css`
     background-color: ${Color.WHITE};
     box-shadow: ${Shadow.HEADER};
   ` : css`
     background-color: ${Color.GRAY_60};
   `}
-
-  transition: background-color 0.4s box-shadow 0.4s;
 `;
 
 const StyledNavigation = styled(Container).attrs({
@@ -61,7 +59,7 @@ const StyledLinkItem = styled.li`
 `;
 
 const StyledLink = styled(TextLink).attrs({
-  size: TextButtonSize.L
+  size: TextButtonSize.LARGE
 })``;
 
 const StyledProfileLink = styled(StyledLink)`
@@ -73,9 +71,9 @@ const StyledProfileLink = styled(StyledLink)`
   }
 `;
 
-function Header(props) {
+function Header({ className }) {
   return (
-    <StyledHeader className={props.className}>
+    <StyledHeader className={className}>
       <StyledNavigation>
 
         <StyledLogo />

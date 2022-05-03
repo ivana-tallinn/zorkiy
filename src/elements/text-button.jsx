@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { Theme } from '../const';
+import { Theme } from '../theme';
 import { Color } from '../tokens/colors';
 import { Icon } from './icon';
 
 const TextButtonSize = {
-  M: 'm',
-  L: 'l'
+  MEDIUM: 'medium',
+  LARGE: 'large'
 };
 
 const TextButtonColor = {
@@ -15,11 +15,11 @@ const TextButtonColor = {
 };
 
 const TextButtonSizeToCSS = {
-  [TextButtonSize.M]: css`
+  [TextButtonSize.MEDIUM]: css`
     font-size: 14px;
     line-height: 20px;
   `,
-  [TextButtonSize.L]: css`
+  [TextButtonSize.LARGE]: css`
     font-size: 16px;
     line-height: 22px;
   `
@@ -27,7 +27,7 @@ const TextButtonSizeToCSS = {
 
 const TextButtonColorToCSS = {
   [TextButtonColor.CONTRAST]: css`
-    color: ${(props) => props.theme.current === Theme.LIGHT ? Color.GRAY_50 : Color.GRAY_10};
+    color: ${({ theme }) => theme.current === Theme.LIGHT ? Color.GRAY_50 : Color.GRAY_10};
 
     svg {
       color: ${Color.BLUE_20};
@@ -43,13 +43,12 @@ const TextButtonColorToCSS = {
 };
 
 const CSS = css`
-  ${(props) => TextButtonSizeToCSS[props.size]}
-  ${(props) => TextButtonColorToCSS[props.color]}
+  ${({ size }) => TextButtonSizeToCSS[size]}
+  ${({ color }) => TextButtonColorToCSS[color]}
 
   display: inline-flex;
   align-items: center;
 
-  transition: color 0.4s;
   cursor: pointer;
 
   &:hover,
@@ -77,15 +76,15 @@ const CSS = css`
   }
 `;
 
-const StyledTextButton = styled.button.attrs((props) => ({
-  type: props.type || 'button',
-  size: props.size || TextButtonSize.M,
-  color: props.color || TextButtonColor.CONTRAST
+const StyledTextButton = styled.button.attrs(({ type, size, color }) => ({
+  type: type || 'button',
+  size: size || TextButtonSize.MEDIUM,
+  color: color || TextButtonColor.CONTRAST
 }))`${CSS}`;
 
-const StyledTextLink = styled(Link).attrs((props) => ({
-  size: props.size || TextButtonSize.M,
-  color: props.color || TextButtonColor.CONTRAST
+const StyledTextLink = styled(Link).attrs(({ size, color }) => ({
+  size: size || TextButtonSize.MEDIUM,
+  color: color || TextButtonColor.CONTRAST
 }))`${CSS}`;
 
 const StyledTextButtonIconLeft = styled(Icon)`

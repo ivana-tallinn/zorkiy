@@ -17,7 +17,7 @@ const IconButtonColorToCSS = {
 };
 
 const CSS = css`
-  ${(props) => IconButtonColorToCSS[props.color]}
+  ${({ color }) => IconButtonColorToCSS[color]}
 
   display: inline-flex;
 
@@ -43,13 +43,13 @@ const CSS = css`
   }
 `;
 
-const StyledIconButton = styled.button.attrs((props) => ({
-  type: props.type || 'button',
-  color: props.color || IconButtonColor.ACCENT
+const StyledIconButton = styled.button.attrs(({ type, color }) => ({
+  type: type || 'button',
+  color: color || IconButtonColor.ACCENT
 }))`${CSS}`;
 
-const StyledIconLink = styled(Link).attrs((props) => ({
-  color: props.color || IconButtonColor.ACCENT
+const StyledIconLink = styled(Link).attrs(({ color }) => ({
+  color: color || IconButtonColor.ACCENT
 }))`${CSS}`;
 
 export {

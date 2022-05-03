@@ -1,18 +1,17 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
-import { Theme } from '../const';
+import { Theme } from '../theme';
 import { Color } from '../tokens/colors';
 import { IconName } from '../tokens/icons';
 import { Container } from './container';
-import { Logo } from './logo';
-import { Icon } from './icon';
-import { IconButtonColor, IconButton } from './icon-button';
-import { TextButtonColor, TextLink } from './text-button';
-import { Typography, TypographyVariant } from './typography';
+import { Logo } from '../elements/logo';
+import { Icon } from '../elements/icon';
+import { IconButtonColor, IconButton } from '../elements/icon-button';
+import { TextButtonColor, TextButton, TextLink } from '../elements/text-button';
+import { Typography, TypographyVariant } from '../elements/typography';
 
 const StyledFooter = styled.footer`
-  background-color: ${(props) => props.theme.current === Theme.LIGHT ? Color.GRAY_10 : Color.GRAY_60};
-  transition: background-color 0.4s;
+  background-color: ${({ theme }) => theme.current === Theme.LIGHT ? Color.GRAY_10 : Color.GRAY_60};
 `;
 
 const StyledContainer = styled(Container)`
@@ -87,6 +86,11 @@ const StyledLink = styled(TextLink).attrs({
   color: TextButtonColor.ALWAYS_GRAY
 })``;
 
+const StyledLinkNative = styled(TextButton).attrs({
+  as: 'a',
+  color: TextButtonColor.ALWAYS_GRAY
+})``;
+
 const StyledThemeToggle = styled(IconButton).attrs({
   color: IconButtonColor.ALWAYS_GRAY
 })`
@@ -100,30 +104,39 @@ const StyledThemeToggle = styled(IconButton).attrs({
   }
 `;
 
-function Footer(props) {
-  const { toggleTheme } = useTheme();
-
-  const onThemeToggleClick = () => toggleTheme();
+function Footer({ className }) {
+  const theme = useTheme();
+  const themeToggleLabel = theme.current === Theme.LIGHT ? 'Включить темную тему' : 'Включить светлую тему';
+  const onThemeToggleClick = () => theme.toggleTheme();
 
   return (
-    <StyledFooter className={props.className}>
+    <StyledFooter className={className}>
       <StyledContainer>
 
         <StyledLogoAndSocialMedia>
           <Logo />
           <StyledSocialMediaList>
             <StyledSocialMediaItem>
-              <StyledSocialMediaLink href='#'>
+              <StyledSocialMediaLink
+                href='#'
+                aria-label='Оптика «Зоркий» в Telegram'
+              >
                 <Icon name={IconName.TELEGRAM} />
               </StyledSocialMediaLink>
             </StyledSocialMediaItem>
             <StyledSocialMediaItem>
-              <StyledSocialMediaLink href='#'>
+              <StyledSocialMediaLink
+                href='#'
+                aria-label='Оптика «Зоркий» на YouTube'
+              >
                 <Icon name={IconName.YOUTUBE} />
               </StyledSocialMediaLink>
             </StyledSocialMediaItem>
             <StyledSocialMediaItem>
-              <StyledSocialMediaLink href='#'>
+              <StyledSocialMediaLink
+                href='#'
+                aria-label='Оптика «Зоркий» во ВКонтакте'
+              >
                 <Icon name={IconName.VK} />
               </StyledSocialMediaLink>
             </StyledSocialMediaItem>
@@ -137,19 +150,19 @@ function Footer(props) {
             </StyledLinkGroupTitle>
             <StyledLinkList>
               <li>
-                <StyledLink to='#'>
+                <StyledLinkNative href='mailto:hello@zorkiy.ru'>
                   hello@zorkiy.ru
-                </StyledLink>
+                </StyledLinkNative>
               </li>
               <li>
-                <StyledLink to='#'>
+                <StyledLinkNative href='tel:+79999999999'>
                   +7 999 999 99 99
-                </StyledLink>
+                </StyledLinkNative>
               </li>
               <li>
-                <StyledLink to='#'>
-                  г. Санкт-Петербург, наб. Pеки Карповки, 5 корпус П
-                </StyledLink>
+                <StyledLinkNative href='https://yandex.ru/maps/-/CCUFJMdF8D' target='_blank'>
+                  г. Санкт-Петербург, наб. реки Карповки, 5 корпус П
+                </StyledLinkNative>
               </li>
             </StyledLinkList>
           </li>
@@ -164,7 +177,7 @@ function Footer(props) {
                 </StyledLink>
               </li>
               <li>
-                <StyledLink to='#'>
+                <StyledLink to='/catalog'>
                   Оправы для очков
                 </StyledLink>
               </li>
@@ -209,7 +222,10 @@ function Footer(props) {
           </li>
         </StyledLinkGroups>
 
-        <StyledThemeToggle onClick={onThemeToggleClick}>
+        <StyledThemeToggle
+          aria-label={themeToggleLabel}
+          onClick={onThemeToggleClick}
+        >
           <Icon name={IconName.THEME_TOGGLE} />
         </StyledThemeToggle>
 

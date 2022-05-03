@@ -1,20 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { visuallyHidden } from '../helpers/visually-hidden';
 import { Container } from '../components/container';
 import { Banner } from '../components/banner';
 import { CategoryCard } from '../components/category-card';
 import { ServiceCard } from '../components/service-card';
-import { TypographyVariant, Typography } from '../components/typography';
+import { TypographyVariant, Typography } from '../elements/typography';
 
-import bannerImageLight from '../images/banner-light.jpg';
-import bannerImageDark from '../images/banner-dark.jpg';
-import categoryImage1 from '../images/category-1.svg';
-import categoryImage2 from '../images/category-2.svg';
-import categoryImage3 from '../images/category-3.svg';
-import serviceImage1 from '../images/service-1.jpg';
-import serviceImage2 from '../images/service-2.jpg';
-import serviceImage3 from '../images/service-3.jpg';
+import { useMockBanner } from '../mocks/banner';
+import { useMockCategories } from '../mocks/categories';
+import { useMockServices } from '../mocks/services';
 
 const StyledIndexPage = styled.div`
   padding-bottom: 70px;
@@ -46,44 +41,27 @@ const StyledCardList = styled.ul`
 `;
 
 function IndexPage() {
+  const theme = useTheme();
+  const banner = useMockBanner(theme.current);
+  const categories = useMockCategories();
+  const services = useMockServices();
+
   return (
     <StyledIndexPage>
       <StyledPageTitle>
         Оптика Зоркий
       </StyledPageTitle>
-      <Banner
-        title='Бесплатная консультация окулиста'
-        text='При покупке оправы Ray-Ban и Seiko от 15 000 рублей'
-        link='#'
-        imageLight={bannerImageLight}
-        imageDark={bannerImageDark}
-      />
+      <Banner {...banner} />
       <StyledSection>
         <StyledSectionTitle>
           Категории товаров
         </StyledSectionTitle>
         <StyledCardList>
-          <li>
-            <CategoryCard
-              title='Контактные линзы'
-              link='#'
-              image={categoryImage1}
-            />
-          </li>
-          <li>
-            <CategoryCard
-              title='Оправы для очков'
-              link='#'
-              image={categoryImage2}
-            />
-          </li>
-          <li>
-            <CategoryCard
-              title='Солнцезащитные очки'
-              link='#'
-              image={categoryImage3}
-            />
-          </li>
+          {categories.map((category) => (
+            <li key={category.id}>
+              <CategoryCard {...category} />
+            </li>
+          ))}
         </StyledCardList>
       </StyledSection>
       <StyledSection>
@@ -91,27 +69,11 @@ function IndexPage() {
           Услуги
         </StyledSectionTitle>
         <StyledCardList>
-          <li>
-            <ServiceCard
-              title='Проверка зрения'
-              link='#'
-              image={serviceImage1}
-            />
-          </li>
-          <li>
-            <ServiceCard
-              title='Осмотр врачом'
-              link='#'
-              image={serviceImage2}
-            />
-          </li>
-          <li>
-            <ServiceCard
-              title='Подбор линз'
-              link='#'
-              image={serviceImage3}
-            />
-          </li>
+          {services.map((service) => (
+            <li key={service.id}>
+              <ServiceCard {...service} />
+            </li>
+          ))}
         </StyledCardList>
       </StyledSection>
     </StyledIndexPage>

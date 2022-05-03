@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Theme } from '../const';
+import { Theme } from '../theme';
 import { Color } from '../tokens/colors';
 
 const TypographyVariant = {
@@ -38,20 +38,18 @@ const TypographyVariantToCSS = {
   `
 };
 
-const StyledTypography = styled.div.attrs((props) => {
-  const defaultColor = props.theme.current === Theme.LIGHT
+const StyledTypography = styled.div.attrs(({ theme, color }) => {
+  const defaultColor = theme.current === Theme.LIGHT
     ? Color.GRAY_50
     : Color.GRAY_10;
 
   return {
-    color: props.color || defaultColor
+    color: color || defaultColor
   };
 })`
-  ${(props) => TypographyVariantToCSS[props.variant]}
+  ${({ variant }) => TypographyVariantToCSS[variant]}
 
-  color: ${(props) => props.color};
-
-  transition: color 0.4s;
+  color: ${({ color }) => color};
 `;
 
 export {
