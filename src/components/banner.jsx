@@ -1,17 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Theme } from '../const';
+import styled, { useTheme } from 'styled-components';
+import { Theme } from '../theme';
 import { Color } from '../tokens/colors';
 import { Gradient } from '../tokens/gradients';
-import { visibleOnLightTheme } from '../helpers/visible-on-light-theme';
-import { visibleOnDarkTheme } from '../helpers/visible-on-dark-theme';
 import { Container } from './container';
-import { TypographyVariant, Typography } from './typography';
-import { ButtonSize, Link } from './button';
+import { TypographyVariant, Typography } from '../elements/typography';
+import { ButtonSize, Link } from '../elements/button';
 
-const StyledBanner = styled(Container).attrs({
-  as: 'article'
-})`
+const StyledBanner = styled(Container)`
   position: relative;
 `;
 
@@ -22,13 +18,10 @@ const StyledImage = styled.div`
   bottom: 0;
   left: 0;
 
-  background-image: url(${(props) => props.image});
+  background-image: url(${({ image }) => image});
   background-position: center;
   background-size: cover;
 `;
-
-const StyledImageLight = styled(StyledImage)`${visibleOnLightTheme}`;
-const StyledImageDark = styled(StyledImage)`${visibleOnDarkTheme}`;
 
 const StyledContentOverlay = styled.div`
   position: absolute;
@@ -37,18 +30,8 @@ const StyledContentOverlay = styled.div`
   left: 0;
 
   width: 320px;
-`;
 
-const StyledContentOverlayLight = styled(StyledContentOverlay)`
-  ${visibleOnLightTheme}
-
-  background-image: ${Gradient.BANNER_LIGHT};
-`;
-
-const StyledContentOverlayDark = styled(StyledContentOverlay)`
-  ${visibleOnDarkTheme}
-
-  background-image: ${Gradient.BANNER_DARK};
+  background-image: ${({ theme }) => theme.current === Theme.LIGHT ? Gradient.BANNER_LIGHT : Gradient.BANNER_DARK};
 `;
 
 const StyledContent = styled.div`
@@ -60,38 +43,32 @@ const StyledContent = styled.div`
   padding-bottom: 54px;
 `;
 
-const StyledTitle = styled(Typography).attrs({
-  as: 'h2',
-  variant: TypographyVariant.TITLE_1,
-  color: Color.BLUE_20
-})`
+const StyledTitle = styled(Typography)`
   margin-bottom: 18px;
 `;
 
-const StyledText = styled(Typography).attrs((props) => ({
-  variant: TypographyVariant.TEXT_1,
-  color: props.theme.current === Theme.LIGHT ? Color.GRAY_40 : Color.GRAY_20
-}))`
+const StyledText = styled(Typography)`
   margin-bottom: 30px;
 `;
 
-const StyledLink = styled(Link).attrs({
-  size: ButtonSize.L
-})``;
+function Banner({ className, title, text, image }) {
+  const theme = useTheme();
+  const textColor = theme.current === Theme.LIGHT ? Color.GRAY_40 : Color.GRAY_20;
 
-function Banner(props) {
   return (
-    <StyledBanner>
-      <StyledImageLight image={props.imageLight} />
-      <StyledImageDark image={props.imageDark} />
-      <StyledContentOverlayLight />
-      <StyledContentOverlayDark />
+    <StyledBanner className={className} as='article'>
+      <StyledImage image={image} />
+      <StyledContentOverlay />
       <StyledContent>
-        <StyledTitle>{props.title}</StyledTitle>
-        <StyledText>{props.text}</StyledText>
-        <StyledLink to={props.link}>
+        <StyledTitle as='h2' variant={TypographyVariant.TITLE_1} color={Color.BLUE_20}>
+          {title}
+        </StyledTitle>
+        <StyledText variant={TypographyVariant.TEXT_1} color={textColor}>
+          {text}
+        </StyledText>
+        <Link size={ButtonSize.LARGE} to='#'>
           Подробнее
-        </StyledLink>
+        </Link>
       </StyledContent>
     </StyledBanner>
   );
